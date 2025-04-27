@@ -1,0 +1,19 @@
+function sendMessage() {
+    const userInput = document.getElementById('user-input').value;
+    const chatBox = document.getElementById('chat-box');
+    
+    // Display user's message in the chat window
+    chatBox.innerHTML += `<div><strong>You:</strong> ${userInput}</div>`;
+    
+    // Send message to the backend (Flask API)
+    fetch('/get_response', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input: userInput })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display AI's response in the chat window
+        chatBox.innerHTML += `<div><strong>Asha:</strong> ${data.response}</div>`;
+    });
+}
