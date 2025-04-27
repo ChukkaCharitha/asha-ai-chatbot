@@ -1,0 +1,12 @@
+import logging
+
+# Set up logging configuration
+logging.basicConfig(filename='user_activity.log', level=logging.INFO)
+
+# Function to log user activity (e.g., user inputs)
+def log_user_activity(user_input):
+    logging.info(f"User Input: {user_input}")
+
+# Example usage
+user_input = "Tell me about mentorship programs"
+log_user_activity(user_input)
