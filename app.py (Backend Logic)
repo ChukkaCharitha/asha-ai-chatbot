@@ -1,0 +1,38 @@
+from flask import Flask, request, jsonify
+import openai
+from langchain.memory import ConversationBufferMemory
+
+# Initialize Flask app and LangChain memory
+app = Flask(__name__)
+memory = ConversationBufferMemory()
+
+# OpenAI API key (replace with your own key)
+openai.api_key = 'your-openai-api-key'
+
+# Endpoint to get chatbot response
+@app.route('/get_response', methods=['POST'])
+def get_response():
+    user_input = request.json['input']
+    
+    # Add user input to memory for multi-turn conversations
+    memory.add_user_input(user_input)
+    
+    # Generate AI response from OpenAI GPT model
+    response = openai.Completion.create(
+        engine="text-davinci-003",  # You can change the model here
+        prompt=user_input,
+        max_tokens=150
+    )
+    
+    # Get the AI response text
+    bot_response = response.choices[0].text.strip()
+    
+    # Add bot response to memory
+    memory.add_bot_input(bot_response)
+    
+    # Return response to the frontend
+    return jsonify({'response': bot_response})
+
+# Run Flask app
+if __name__ == '__main__':
+    app.run(debug=True)
