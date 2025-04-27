@@ -1,0 +1,15 @@
+import requests
+
+# Function to fetch job listings
+def get_job_listings():
+    # Example API URL for job listings (you need to replace this with a real URL)
+    response = requests.get('https://api.example.com/jobs?category=women_in_tech')
+    
+    # Assuming the API returns a JSON response
+    jobs = response.json()
+    return jobs
+
+# Fetch and print job listings
+job_listings = get_job_listings()
+for job in job_listings:
+    print(f"Job Title: {job['title']}, Company: {job['company']}, Location: {job['location']}")
